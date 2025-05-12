@@ -1,3 +1,4 @@
+#Just an example to show how the hand tracking module is imported and used!
 import cv2 
 import mediapipe as mp
 import time
