@@ -12,11 +12,6 @@ from mediapipe.python.solutions.face_mesh_connections import FACEMESH_TESSELATIO
 faceMesh=mpFaceMesh.FaceMesh()   #mediapipe FaceMesh object 
 drawSpec=mpDraw.DrawingSpec(thickness=2, circle_radius=2)
 
-#static_image_mode=false, 
-#max_num_faces=1,
-# min_detection_confidence=0.5,
-# min_tracking_confidence=0.5
-
 while True:
     success,img=cap.read()
     img=cv2.resize(img,(790,670),fx=0.5,fy=0.5)
