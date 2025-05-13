@@ -28,8 +28,8 @@ class handDetector():
         if self.results.multi_hand_landmarks:
             for singleHand in self.results.multi_hand_landmarks:
                 if draw:
-                    landmark_spec = self.mpDraw.DrawingSpec(color=(0, 0, 255), thickness=1, circle_radius=2) 
-                    connection_spec = self.mpDraw.DrawingSpec(color=(0, 255, 0), thickness=1, circle_radius=2)
+                    landmark_spec = self.mpDraw.DrawingSpec(color=(0, 0, 255), thickness=4, circle_radius=3) 
+                    connection_spec = self.mpDraw.DrawingSpec(color=(0, 255, 0), thickness=2, circle_radius=2)
                     self.mpDraw.draw_landmarks(img, singleHand, self.mpHands.HAND_CONNECTIONS,landmark_spec, connection_spec)
         return img    
                 
@@ -46,7 +46,7 @@ class handDetector():
                     lmList.append([id, cx,cy])
                     #to highlight a particular landmark
                     if draw: 
-                        cv2.circle(img,(cx,cy),5,(255,0,0),cv2.FILLED)
+                        cv2.circle(img,(cx,cy),5,(0,0,255),cv2.FILLED)
 
         return lmList
 
