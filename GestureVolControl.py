@@ -47,8 +47,8 @@ while True:
         #hand range was 50 to 300 
         #volume range -63.5 to 0
         vol=np.interp(length,[50,250],[minVol,maxVol])
-        volBar=np.interp(length,[50,270],[400,150])
-        volPercentage=np.interp(length,[50,270],[0,100])
+        volBar=np.interp(length,[50,250],[400,150])
+        volPercentage=np.interp(length,[50,250],[0,100])
         print(int(length),vol)
         volume.SetMasterVolumeLevel(vol, None)
         if length<50:

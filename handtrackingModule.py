@@ -28,7 +28,7 @@ class handDetector():
         if self.results.multi_hand_landmarks:
             for singleHand in self.results.multi_hand_landmarks:
                 if draw:
-                    landmark_spec = self.mpDraw.DrawingSpec(color=(0, 0, 255), thickness=4, circle_radius=3) 
+                    landmark_spec = self.mpDraw.DrawingSpec(color=(0, 0, 255), thickness=4, circle_radius=1) 
                     connection_spec = self.mpDraw.DrawingSpec(color=(0, 255, 0), thickness=2, circle_radius=2)
                     self.mpDraw.draw_landmarks(img, singleHand, self.mpHands.HAND_CONNECTIONS,landmark_spec, connection_spec)
         return img    
