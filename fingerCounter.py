@@ -52,18 +52,19 @@ while True:
         print(totalFindersUp)
         h,w,c=overLayList[totalFindersUp-1].shape
         img[0:h, 0:w] = overLayList[totalFindersUp-1]
+        cv2.rectangle(img,(5,200),(150,300),(0,255,0),cv2.FILLED)
         if totalFindersUp==0:
-            cv2.putText(img,f'Zero',(20,250),cv2.FONT_HERSHEY_COMPLEX,1,(255,0,0),2)
+            cv2.putText(img,f'Zero',(40,260),cv2.FONT_HERSHEY_COMPLEX,1,(255,0,0),2)
         elif totalFindersUp==1:
-            cv2.putText(img,f'One',(20,250),cv2.FONT_HERSHEY_COMPLEX,1,(255,0,0),2)
+            cv2.putText(img,f'One',(40,260),cv2.FONT_HERSHEY_COMPLEX,1,(255,0,0),2)
         elif totalFindersUp==2:
-            cv2.putText(img,f'Two',(20,250),cv2.FONT_HERSHEY_COMPLEX,1,(255,0,0),2)
+            cv2.putText(img,f'Two',(40,260),cv2.FONT_HERSHEY_COMPLEX,1,(255,0,0),2)
         elif totalFindersUp==3:
-            cv2.putText(img,f'Three',(20,250),cv2.FONT_HERSHEY_COMPLEX,1,(255,0,0),2)
+            cv2.putText(img,f'Three',(40,260),cv2.FONT_HERSHEY_COMPLEX,1,(255,0,0),2)
         elif totalFindersUp==4:
-            cv2.putText(img,f'Four',(20,250),cv2.FONT_HERSHEY_COMPLEX,1,(255,0,0),2)
+            cv2.putText(img,f'Four',(40,260),cv2.FONT_HERSHEY_COMPLEX,1,(255,0,0),2)
         else:
-            cv2.putText(img,f'Five',(20,250),cv2.FONT_HERSHEY_COMPLEX,1,(255,0,0),2)
+            cv2.putText(img,f'Five',(40,260),cv2.FONT_HERSHEY_COMPLEX,1,(255,0,0),2)
 
     cTime=time.time()
     fps=1/(cTime-pTime)

@@ -1,6 +1,7 @@
 import cv2
 import mediapipe as mp
 import time
+import math
 # 11592987760
 class poseDetector():
     def __init__(self, mode=False, smooth=True, detectionCon=0.5, trackingCon=0.5):
@@ -33,17 +34,43 @@ class poseDetector():
     
 
     def getPosition(self, img, draw=True):
-        lmList=[]
+        self.lmList=[]
         if self.results.pose_landmarks:
             for id , lm in enumerate(self.results.pose_landmarks.landmark):
                 h,w,c=img.shape
                 cx,cy=int(lm.x*w),int(lm.y*h)  #to get the acutal pixel values in integer and not in ratio
-                lmList.append([id,cx,cy])
+                self.lmList.append([id,cx,cy])
                 if draw:
                     #to ensure we are getting the right location for each landmarks, drawing circle over the positions to verify
                     cv2.circle(img,(cx,cy),5,(255,0,0),cv2.FILLED)
-        return lmList
+        return self.lmList
+    
+    def findAngle(self,img, p1,p2,p3, draw=True):
+        #Get the requisite landmarks 
+        x1,y1=self.lmList[p1][1:]
+        x2,y2=self.lmList[p2][1:]
+        x3,y3=self.lmList[p3][1:]
+ 
+        #Finding angle in degrees
+        angle=math.atan2(y3-y2,x3-x2) - math.atan2(y1-y2,x1-x2)  #(in radians)
+        degAngle=math.degrees(angle) 
+        if degAngle<0:
+            degAngle +=360
+    
+        # print(degAngle)
 
+        #draw the landmarks
+        if draw:
+            cv2.line(img,(x1,y1),(x2,y2),(255,0,0),3)
+            cv2.line(img,(x2,y2),(x3,y3),(255,0,0),3)
+            cv2.circle(img,(x1,y1),10,(0,0,255),cv2.FILLED)
+            cv2.circle(img,(x1,y1),15,(0,0,255),2)
+            cv2.circle(img,(x2,y2),10,(0,0,255),cv2.FILLED)
+            cv2.circle(img,(x2,y2),15,(0,0,255),2)
+            cv2.circle(img,(x3,y3),10,(0,0,255),cv2.FILLED)
+            cv2.circle(img,(x3,y3),15,(0,0,255),2)
+            # cv2.putText(img,f'{int(degAngle)} deg',(x2+34,y2+50),cv2.FONT_HERSHEY_SIMPLEX,1,(255,0,0),3)
+        return degAngle
 
 def main():
     pTime=0
@@ -54,6 +81,7 @@ def main():
         success, img=cap.read()
         img=detector.findPose(img)
         lmList=detector.getPosition(img)
+        img=detector.findAngle(img,11,13,15)
         print(lmList) # will the return the position of all landmarks in the pose
         cTime=time.time()
         fps=1/(cTime-pTime)
