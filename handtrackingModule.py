@@ -19,6 +19,7 @@ class handDetector():
             min_tracking_confidence=self.trackCon
         )   #this object only uses RGB images
         self.mpDraw=mp.solutions.drawing_utils  #it is use to draw points over different landmarks
+        self.tipIds=[4,8,12,16,20]
 
 
     #a function to detect hands and then to draw points for landmarks and connecting them only when asked!  because: (draw = True)
@@ -35,7 +36,7 @@ class handDetector():
                 
 
     def findPosition(self, img, handNo=0, draw=True):
-        lmList=[]
+        self.lmList=[]
         if self.results.multi_hand_landmarks:
             myHand=self.results.multi_hand_landmarks[handNo] #it will detect the first hand 
             for id, lm in enumerate(myHand.landmark): #it will return the id for each and evry landmark in a hand
@@ -43,13 +44,32 @@ class handDetector():
                     h,w,c=img.shape
                     cx,cy=int(lm.x*w), int(lm.y*h)  # to get the value in integer instead of floating values
                     #multiplied x value of landmark with width and y with height to get the exact central location 
-                    lmList.append([id, cx,cy])
+                    self.lmList.append([id, cx,cy])
                     #to highlight a particular landmark
                     if draw: 
                         cv2.circle(img,(cx,cy),5,(0,0,255),cv2.FILLED)
 
-        return lmList
+        return self.lmList
+    
+    def fingersUp(self):
+       
+        fingers=[]
+        #for thumb : not checking on the basis of y-parameter rather checking if point 4 goes beyond the point 3 then considering to be open
+        #else considering top be closed(on the right of point 3 of thumb)
+        if self.lmList[4][1] > self.lmList[4-1][1]:  
+            fingers.append(0)
+            # print("Index finger open")    
+        else:
+            fingers.append(1) 
 
+        #for the remaining fingers:
+        for id in range(1,5):
+            if self.lmList[self.tipIds[id]][2] < self.lmList[self.tipIds[id]-2][2]:  #since in openCV y distance is measured from the top of the window
+                fingers.append(1)
+                # print("Index finger open")    
+            else:
+                fingers.append(0) 
+        return fingers
 
 def main():
     cap=cv2.VideoCapture(0)
